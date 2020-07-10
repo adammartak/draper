@@ -34,12 +34,14 @@ module Draper
 
   def self.setup_action_controller(base)
     base.class_eval do
-      include Draper::Compatibility::ApiOnly if base == ActionController::API
-      include Draper::ViewContext
-      extend  Draper::HelperSupport
-      extend  Draper::DecoratesAssigned
+      if base != ActionController::API
+        include Draper::Compatibility::ApiOnly if base == ActionController::API
+        include Draper::ViewContext
+        extend  Draper::HelperSupport
+        extend  Draper::DecoratesAssigned
 
-      before_action :activate_draper
+        before_action :activate_draper
+      end
     end
   end
 
